@@ -1,0 +1,39 @@
+*{
+	padding: 0;
+	margin:0;
+}
+
+body{
+	margin:0px;
+}
+
+li{
+	list-style-type: none;
+}
+
+.siderImg{
+   /*width:1100px;*/
+   margin-left:260px;
+   height: 350px;
+   /*border: 1px solid #abcdef;*/ 
+   position: relative;
+   overflow: hidden;  /*内容隐藏溢出,超出部分自动隐藏*/
+}
+/*
+#result-box{
+   border: 5px solid #0ff000;
+}*/
+.siderImg ul{
+   overflow: hidden;  /*清除ul浮动*/
+   width: 120000px;
+   height:350px;
+   left: 0px;  /*相对于起点*/
+   position:absolute;
+   _height:1px;  /*IE兼容清除浮动*/
+}
+
+.siderImg ul li{
+	float:left;
+	cursor: pointer;   /*设置鼠标样式为手状*/
+}
+
