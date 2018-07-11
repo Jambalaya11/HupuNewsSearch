@@ -11,7 +11,8 @@ django向es发送post请求，将query传给es,并展示搜索结果
 
 +attention<br/>
 es分词：插件ik <br/>
-es展示：elastic search head
+es展示：elastic search head<br/>
+去重:redis 
 
 *使用<br/>
 1.需要将es打开：brew services start elasticsearch or elasticsearch <br/>使用127.0.0.1:9200访问<br/>
@@ -19,6 +20,7 @@ es展示：elastic search head
 3.打开爬虫:进入Hupuspider目录：scrapy crawl nba_news<br/>
 4.打开网站:进入website目录：python manage.py runserver 9000><br/>
 5.访问链接： http://127.0.0.1:9000/home
+
 
 
 
