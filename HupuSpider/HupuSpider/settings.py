@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
 	'HupuSpider.pipelines.ElasticsearchPipeline': 1,
+	#'HupuSpider.pipelines.DuplicatePipeline': 2,
     # 'HupuSpider.pipelines.HupuspiderPipeline': 2,
     # 'HupuSpider.pipelines.HupuImagesPipeline': 3,
 }

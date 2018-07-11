@@ -18,9 +18,8 @@ def show_demo(request):
 
 @csrf_exempt
 def get_search_result(request):
-	context = {"newstitle":[],"newsurl":[],"content":[],"teamname":[],"teamurl":[],"imageurl":[]}
+	context = {"newstitle":[],"newsurl":[],"content":[],"teamname":[],"teamurl":[],"imageurl":[],"score":[]}
 	query = request.POST.get("query", "")
-	print query
 	body = {
 	    "query":{
 	    	"dis_max":{
@@ -37,11 +36,13 @@ def get_search_result(request):
 	result = es.search(index="hupu",doc_type="doc",body=body)
 	for item in result["hits"]["hits"]:
 		res = item['_source']
+		context["score"].append(item['_score'])
 		context['newstitle'].append(res['newstitle'])
 		context['newsurl'].append(res['newsurl'])
 		context['content'].append(res['content'])
 		context['teamname'].append(res['teamname'])
 		context['teamurl'].append(res['teamurl'])
 		context['imageurl'].append(res['imageurl'])
+	print context["score"]
 	return HttpResponse(json.dumps(context))
 
