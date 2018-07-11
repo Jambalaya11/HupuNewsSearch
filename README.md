@@ -17,7 +17,8 @@ es展示：elastic search head<br/>
 *使用<br/>
 1.需要将es打开：brew services start elasticsearch or elasticsearch <br/>使用127.0.0.1:9200访问<br/>
 2.打开es head:进入es head 安装目录： npm run start<br/> 使用127.0.0.1:9100访问 <br/>
-3.打开redis:redis-server /usr/local/etc/redis.conf<br/>
+3.打开redis服务器端:redis-server /usr/local/etc/redis.conf<br/>
+4.打开redis客户端:进入usr/local/Cellar/redis/4.0.10/bin，执行redis-cli
 4.打开爬虫:进入Hupuspider目录：scrapy crawl nba_news<br/>
 5.打开网站:进入website目录：python manage.py runserver 9000><br/>
 6.访问链接： http://127.0.0.1:9000/home
