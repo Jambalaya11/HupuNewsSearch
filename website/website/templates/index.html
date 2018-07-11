@@ -83,7 +83,9 @@
         }
 
         $("#video-url-button").click(function(){
-            var params = {"query":$('#video-url').val()};
+            $("#result-box").html('');
+            var query = $('#video-url').val();
+            var params = {"query":query};
             console.log(params);
             //$("body").mLoading("show");
             $.ajax({
@@ -100,7 +102,13 @@
                     teamname = context['teamname'];
                     if (news_title.length != 0){
                         for (var i=0 ; i< news_title.length; i++){
-							$("#result-box").append("<div class='name'><a href=" + news_url[i] + " target='_blank'>" + news_title[i] + "</a></div><div class='txt'><span>" + content[i] + "</span></div><div class='image'><a href=" + teamurl[i] + " target='_blank'><img width='100' height='100' src = " + imageurl[i] + "></a></div>");
+                            var keyword = content[i].split(query);
+
+							$("#result-box").append("<div class='name'><a href=" + news_url[i] + " target='_blank'>" + news_title[i] + "</a></div>")
+                            //$("#result-box").append("<div class='txt'><span>" + content[i] + "</span></div>")
+                            //$("#result-box").append("<span name='txt' width='300' >" + content[i] + "</span>");
+                            $("#result-box").append(keyword.join('<span style="background:#cfc;">' + query + '</span>'));
+                            $("#result-box").append("<div class='image'><a href=" + teamurl[i] + " target='_blank'><img width='100 ' height='100' src = " + imageurl[i] + "></a></div>");
 						}
                         $("#result-box").show();
                         }

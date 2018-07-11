@@ -20,17 +20,23 @@ def show_demo(request):
 def get_search_result(request):
 	context = {"newstitle":[],"newsurl":[],"content":[],"teamname":[],"teamurl":[],"imageurl":[]}
 	query = request.POST.get("query", "")
+	print query
 	body = {
 	    "query":{
-	        "term":{
-	            "teamname":query
-	        }
+	    	"dis_max":{
+	    		"queries":[
+		    		{"match": {"teamname": query}},
+		    		{"match": {"content": query}}
+		    	]
+	    	}
+	        # "term":{
+	        #     "teamname":query
+	        # }
 	    }
 	}
 	result = es.search(index="hupu",doc_type="doc",body=body)
 	for item in result["hits"]["hits"]:
 		res = item['_source']
-		print res
 		context['newstitle'].append(res['newstitle'])
 		context['newsurl'].append(res['newsurl'])
 		context['content'].append(res['content'])
