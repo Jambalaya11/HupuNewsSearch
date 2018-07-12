@@ -28,21 +28,21 @@ def get_search_result(request):
 		    		{"match": {"content": query}}
 		    	]
 	    	}
+	    }
 	        # "term":{
 	        #     "teamname":query
 	        # }
-	    }
 	}
 	result = es.search(index="hupu",doc_type="doc",body=body)
 	for item in result["hits"]["hits"]:
-		print item
 		res = item['_source']
-		context["score"].append(item['_score'])
-		context['newstitle'].append(res['newstitle'])
-		context['newsurl'].append(res['newsurl'])
-		context['content'].append(res['content'])
-		context['teamname'].append(res['teamname'])
-		context['teamurl'].append(res['teamurl'])
-		context['imageurl'].append(res['imageurl'])
+		if res['newstitle'] not in context["newstitle"]:
+			context["score"].append(item['_score'])
+			context['newstitle'].append(res['newstitle'])
+			context['newsurl'].append(res['newsurl'])
+			context['content'].append(res['content'])
+			context['teamname'].append(res['teamname'])
+			context['teamurl'].append(res['teamurl'])
+			context['imageurl'].append(res['imageurl'])
 	return HttpResponse(json.dumps(context))
 
