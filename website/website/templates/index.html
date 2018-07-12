@@ -108,8 +108,9 @@
 							$("#result-box").append("<div class='name'><a href=" + news_url[i] + " target='_blank'>" + news_title[i] + "</a><span style='float:right' class='score'>相似度打分： " +score[i]+ "</span></div>")
                             //$("#result-box").append("<div class='txt'><span>" + content[i] + "</span></div>")
                             //$("#result-box").append("<span name='txt' width='300' >" + content[i] + "</span>");
-                            $("#result-box").append(keyword.join('<span style="background:#cfc;">' + query + '</span>'));
-                            $("#result-box").append("<div class='image'><a href=" + teamurl[i] + " target='_blank'><img width='100 ' height='100' src = " + imageurl[i] + "></a></div>");
+                            $("#result-box").append("<div style='width:1200px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; '" + keyword.join('<span style="background:#cfc;">' + query + '</span>') + "</div>"); 
+                            //$("#result-box").append(keyword.join('<span style="background:#cfc;">' + query + '</span>'));
+                            $("#result-box").append("<div class='image'><a href=" + teamurl[i] + " target='_blank'><img width='200 ' height='200' src = " + imageurl[i] + "></a></div>");
 						}}
                     else{
                         $("#result-box").html("Sorry, no search results. You can try something else");

@@ -6,7 +6,12 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+import json 
+import redis 
+import random 
+from fake_useragent import UserAgent
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware 
+from scrapy.downloadermiddlewares.retry import RetryMiddleware 
 
 class HupuspiderSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +106,22 @@ class HupuspiderDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+
+class RandomUserAgentMiddlware(UserAgentMiddleware ):
+
+    def __init__(self, crawler):
+        super(RandomUserAgentMiddlware, self).__init__()
+        self.ua = UserAgent(verify_ssl=False)
+       
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler)
+    
+    def process_request(self, request, spider):
+        def get_ua():
+            return getattr(self.ua, self.ua_type)
+
+        print  get_ua()
+        request.headers.setdefault('User-Agent', get_ua())

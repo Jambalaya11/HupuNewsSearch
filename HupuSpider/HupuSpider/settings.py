@@ -17,6 +17,7 @@ NEWSPIDER_MODULE = 'HupuSpider.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'HupuSpider (+http://www.yourdomain.com)'
 
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
@@ -45,9 +46,10 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'HupuSpider.middlewares.HupuspiderSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+    'HupuSpider.middlewares.RandomUserAgentMiddlware': 543,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -60,6 +62,10 @@ ROBOTSTXT_OBEY = False
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+SCHEDULER_PERSIST = True
+REDIS_URL = 'redis://root:g020738@127.0.0.1:6379'
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html

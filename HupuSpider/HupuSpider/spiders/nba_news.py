@@ -2,47 +2,49 @@
 import scrapy
 import os
 import json
+from scrapy_redis.spiders import RedisCrawlSpider
 from HupuSpider.items import HupuspiderItem
 item = HupuspiderItem()
 
 
 class NbaNewsSpider(scrapy.Spider):
+#class NbaNewsSpider(RedisCrawlSpider):
     name = 'nba_news'
     allowed_domains = ['hupu.com']
     start_urls=['https://voice.hupu.com/nba/']
-
+    # start_urls=['https://nba.hupu.com/']
+    # redis_key = 'hupunewsspider:start_urls'
     def parse(self, response):
         items=[]
+    	result=response.xpath('/html/body/div[2]/div/div[3]/div[2]/div[1]/ul')
 
-	result=response.xpath('/html/body/div[2]/div/div[3]/div[2]/div[1]/ul')
+    	# 球队队名
+    	team=result.xpath('.//li/a/text()').extract()
+    	allteam=team[:-1]
+    	team=result.xpath('.//li[last()]/div/a/text()').extract()
+    	allteam.extend(team)
 
-	# 球队队名
-	team=result.xpath('.//li/a/text()').extract()
-	allteam=team[:-1]
-	team=result.xpath('.//li[last()]/div/a/text()').extract()
-	allteam.extend(team)
+    	# 球队url
+    	teamurl = result.xpath('.//li/a/@href').extract()
+    	allteamurl = teamurl[:-1]
+    	teamurl = result.xpath('.//li[last()]/div/a/@href').extract()
+    	allteamurl.extend(teamurl)
 
-	# 球队url
-	teamurl = result.xpath('.//li/a/@href').extract()
-	allteamurl = teamurl[:-1]
-	teamurl = result.xpath('.//li[last()]/div/a/@href').extract()
-	allteamurl.extend(teamurl)
+    	# 爬取所有的球队
+    	for i in range(0,len(allteam)):
+    	    item = HupuspiderItem()
 
-	# 爬取所有的球队
-	for i in range(0,len(allteam)):
-	    item = HupuspiderItem()
+    	    # 指定存储目录+球队名字
+    	    teamFilename="./hupunews/"+allteam[i]
 
-	    # 指定存储目录+球队名字
-	    teamFilename="./hupunews/"+allteam[i]
+    	    # 如果目录不存在，则创建目录
+    	    if (not os.path.exists(teamFilename)):
+    		os.makedirs(teamFilename)
 
-	    # 如果目录不存在，则创建目录
-	    if (not os.path.exists(teamFilename)):
-		os.makedirs(teamFilename)
+    	    item['teamname']=allteam[i]
+    	    item['teamurl']=allteamurl[i]
 
-	    item['teamname']=allteam[i]
-	    item['teamurl']=allteamurl[i]
-
-	    items.append(item)
+    	    items.append(item)
 
 	#发送每个球队url的Request请求，得到Response连同包含meta数据
 	# 一同交给回调函数 second_parse 方法处理

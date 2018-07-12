@@ -11,8 +11,7 @@ import scrapy
 import os
 import pandas as pd
 import redis
-redis_db = redis.Redis(host=settings.REDIS_HOST, port=6379, db=4, password=settings.REDIS_PWD)
-redis_data_dict = "f_uuids"
+
 
 import sys
 sys.path.append('..')
@@ -63,25 +62,6 @@ class ElasticsearchPipeline(object):
         article.imageurl = item["imageurl"]
 
         
-        article.save()
-        return item
-
-class DuplicatePipeline(object):
-    """
-    去重(redis)
-    """
-
-    def __init__(self):
-        if redis_db.hlen(redis_data_dict) == 0:
-            sql = "SELECT uuid FROM f_data"
-            df = pd.read_sql(sql, engine)
-            for uuid in df['uuid'].get_values():
-                redis_db.hset(redis_data_dict, uuid, 0)
-
-    def process_item(self, item, spider):
-
-        if redis_db.hexists(redis_data_dict, item['uuid']):
-             raise DropItem("Duplicate item found:%s" % item)
-
+        #article.save()
         return item
 

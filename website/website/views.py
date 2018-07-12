@@ -35,6 +35,7 @@ def get_search_result(request):
 	}
 	result = es.search(index="hupu",doc_type="doc",body=body)
 	for item in result["hits"]["hits"]:
+		print item
 		res = item['_source']
 		context["score"].append(item['_score'])
 		context['newstitle'].append(res['newstitle'])
@@ -43,6 +44,5 @@ def get_search_result(request):
 		context['teamname'].append(res['teamname'])
 		context['teamurl'].append(res['teamurl'])
 		context['imageurl'].append(res['imageurl'])
-	print context["score"]
 	return HttpResponse(json.dumps(context))
 
